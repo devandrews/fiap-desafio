@@ -1,7 +1,7 @@
 import { User } from "@/core/domain/user";
 
 export interface UserRepository {
-  getUserByCpf(cpf: string): Promise<User>;
+  getByCpf(cpf: string): Promise<User>;
 
-  createUser(user: Omit<User, "id">): Promise<User>;
+  create(user: Omit<User, "id">): Promise<User>;
 }

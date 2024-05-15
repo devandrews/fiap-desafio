@@ -1,11 +1,11 @@
 import { Product, ProductCategory } from "@/core/domain/product";
 
 export interface ProductRepository {
-  save(product: Omit<Product, "id">): Product;
+  create(product: Omit<Product, "id">): Promise<Product>;
 
-  update(id: Pick<Product, "id">, product: Partial<Product>): Product;
+  update(id: string, product: Partial<Product>): Promise<Product>;
 
-  remove(id: Pick<Product, "id">): void;
+  remove(id: string): Promise<void>;
 
-  getByCategory(category: ProductCategory): Product[];
+  getByCategory(category: ProductCategory): Promise<Product[]>;
 }
