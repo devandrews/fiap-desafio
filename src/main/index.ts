@@ -1,8 +1,13 @@
+import "dotenv/config";
+
 import express from "express";
+
+import db from "@/adapter/infra/pg/db";
+import { PgUserRepository } from "@/adapter/infra/pg/repositories/user-repository";
 
 const { PORT = 3000 } = process.env;
 
-function main() {
+async function main() {
   const app = express();
 
   app.get("/", (req, res) => {
@@ -14,4 +19,7 @@ function main() {
   });
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
