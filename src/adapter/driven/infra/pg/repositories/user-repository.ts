@@ -6,6 +6,10 @@ import { User } from "@/core/domain/user";
 export class PgUserRepository implements UserRepository {
   constructor(private readonly db: Knex) {}
 
+  async get(): Promise<User[]> {
+    return await this.db("users");
+  }
+
   async getByCpf(cpf: string): Promise<User> {
     const user = await this.db.select("*").from("users").where({ cpf }).first();
 

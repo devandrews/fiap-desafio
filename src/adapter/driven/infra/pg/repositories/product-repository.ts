@@ -6,6 +6,10 @@ import { Product, ProductCategory } from "@/core/domain/product";
 export class PgProductRepository implements ProductRepository {
   constructor(private readonly db: Knex) {}
 
+  async get(): Promise<Product[]> {
+    return await this.db("products");
+  }
+
   async create(
     product: Omit<Product, "id" | "createdAt" | "updatedAt">
   ): Promise<Product> {

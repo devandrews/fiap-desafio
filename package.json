@@ -6,7 +6,7 @@
     "migration:add": "npx knex migrate:make -x ts", 
     "migration:run": "npx knex migrate:latest",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "dev": "node -r tsconfig-paths/register -r ts-node/register src/main/index.ts",
+    "dev": "node -r tsconfig-paths/register -r ts-node/register src/index.ts",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "start": "node dist/main",
