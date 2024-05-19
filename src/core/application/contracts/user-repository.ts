@@ -5,5 +5,5 @@ export interface UserRepository {
 
   getByCpf(cpf: string): Promise<User>;
 
-  create(user: Omit<User, "id">): Promise<User>;
+  create(user: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<User>;
 }

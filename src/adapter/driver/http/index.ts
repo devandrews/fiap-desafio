@@ -14,6 +14,8 @@ const { PORT = 3000 } = process.env;
 export const setupHttpDriver = (): Express => {
   const app = express();
 
+  app.use(express.json());
+
   const httpOrdersRoutes = new HttpOrdersRoutes(app, new PgOrderRepository(db));
   const httpProductsRoutes = new HttpProductsRoutes(
     app,
