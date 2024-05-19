@@ -19,9 +19,7 @@ export class PgOrderRepository implements OrderRepository {
     return orders;
   }
 
-  async create(
-    _order: Omit<Order, "id" | "createdAt" | "updatedAt">
-  ): Promise<Order> {
+  async create(_order: Omit<Order, "id">): Promise<Order> {
     const { products, ...order } = _order;
 
     const [createdOrder] = await this.db("orders").insert(order).returning("*");

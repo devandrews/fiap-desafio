@@ -10,9 +10,7 @@ export class PgProductRepository implements ProductRepository {
     return await this.db("products");
   }
 
-  async create(
-    product: Omit<Product, "id" | "createdAt" | "updatedAt">
-  ): Promise<Product> {
+  async create(product: Omit<Product, "id">): Promise<Product> {
     const [createdProduct] = await this.db("products")
       .insert(product)
       .returning("*");

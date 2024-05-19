@@ -16,9 +16,7 @@ export class PgUserRepository implements UserRepository {
     return user;
   }
 
-  async create(
-    user: Omit<User, "id" | "createdAt" | "updatedAt">
-  ): Promise<User> {
+  async create(user: Omit<User, "id">): Promise<User> {
     const [createdUser] = await this.db("users").insert(user).returning("*");
 
     return createdUser;
