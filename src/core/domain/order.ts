@@ -7,9 +7,13 @@ export enum OrderStatus {
   FINALIZADO = "Finalizado",
 }
 
+export type OrderItems = Pick<Product, "id" | "price"> & {
+  quantity: number;
+};
+
 export type Order = {
   id: string;
-  products: Product[];
+  products: OrderItems[];
   total: number;
   status: OrderStatus;
   createdAt: Date;

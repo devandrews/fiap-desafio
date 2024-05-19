@@ -30,6 +30,6 @@ export class PgProductRepository implements ProductRepository {
   }
 
   async getByCategory(category: ProductCategory): Promise<Product[]> {
-    return this.db("products").where("category", category);
+    return await this.db("products").where("category", category);
   }
 }
