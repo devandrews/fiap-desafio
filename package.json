@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "migration:add": "npx knex migrate:make -x ts", 
+    "migration:add": "npx knex migrate:make -x ts",
     "migration:run": "npx knex migrate:latest",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "dev": "node -r tsconfig-paths/register -r ts-node/register src/index.ts",
@@ -46,6 +46,7 @@
     "module-alias": "^2.2.2",
     "pg": "^8.11.5",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "zod": "^3.23.8"
   }
 }
