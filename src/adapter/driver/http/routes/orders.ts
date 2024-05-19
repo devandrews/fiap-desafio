@@ -1,5 +1,11 @@
-import { OrderRepository } from "@/core/application/contracts/order-repository";
+import { ZodError } from "zod";
 import { Express } from "express";
+
+import { OrderRepository } from "@/core/application/contracts/order-repository";
+import {
+  createOrderRequestBodySchema,
+  updateOrderStatusRequestBodySchema,
+} from "../validators/orders";
 
 export class HttpOrdersRoutes {
   constructor(
@@ -14,19 +20,33 @@ export class HttpOrdersRoutes {
     });
 
     this.app.post("/orders", async (req, res) => {
-      const createdOrder = await this.repository.create(req.body);
-      res.status(201).json(createdOrder);
+      try {
+        const body = createOrderRequestBodySchema.parse(req.body);
+        const createdOrder = await this.repository.create(body);
+        res.status(201).json({ data: createdOrder });
+      } catch (error: any) {
+        if (error instanceof ZodError) {
+          return res.status(400).json({ error: error.errors });
+        }
+        res.status(500).json({ error: error.message });
+      }
     });
 
-    this.app.put("/orders/:id", async (req, res) => {
-      const { id } = req.params;
-      const order = req.body;
-      if (!order.status) {
-        res.status(400).json({ error: "Status is required" });
-        return;
+    this.app.patch("/order/:id/status", async (req, res) => {
+      try {
+        const body = updateOrderStatusRequestBodySchema.parse(req.body);
+        const { id } = req.params;
+        const updatedOrder = await this.repository.updateStatus(
+          id,
+          body.status
+        );
+        res.json({ data: updatedOrder });
+      } catch (error: any) {
+        if (error instanceof ZodError) {
+          return res.status(400).json({ error: error.errors });
+        }
+        res.status(500).json({ error: error.message });
       }
-      const updatedOrder = await this.repository.updateStatus(id, order.status);
-      res.json(updatedOrder);
     });
   }
 }
