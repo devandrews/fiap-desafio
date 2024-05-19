@@ -20,8 +20,7 @@ export class HttpUsersRoutes {
     });
 
     this.app.post("/users", async (req, res) => {
-      const user = req.body;
-      const createdUser = await this.repository.create(user);
+      const createdUser = await this.repository.create(req.body);
       res.status(201).json(createdUser);
     });
   }

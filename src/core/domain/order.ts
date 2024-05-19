@@ -16,6 +16,4 @@ export type Order = {
   products: OrderItems[];
   total: number;
   status: OrderStatus;
-  createdAt: Date;
-  updatedAt: Date;
 };

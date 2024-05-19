@@ -3,6 +3,4 @@ export type User = {
   name: string;
   email: string;
   cpf: string;
-  createdAt: Date;
-  updatedAt: Date;
 };

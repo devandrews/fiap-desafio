@@ -12,6 +12,4 @@ export type Product = {
   price: number;
   description: string;
   images: string[];
-  createdAt: Date;
-  updatedAt: Date;
 };
