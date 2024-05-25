@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
+    "outDir": "dist/src",
+    "rootDir": "./src",
     "target": "es2021",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -9,12 +9,12 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]
     },
     "strict": true
   },
-  "include": ["src", "tests"]
+  "include": ["./src", "tests", "src/adapter/driven/infra/pg/knexfile.ts"]
 }

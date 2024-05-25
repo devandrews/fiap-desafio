@@ -8,27 +8,32 @@ import { HttpOrdersRoutes } from "./routes/orders";
 import { HttpProductsRoutes } from "./routes/products";
 import { HttpUsersRoutes } from "./routes/users";
 import { PgUserRepository } from "@/adapter/driven/infra/pg/repositories/user-repository";
+import { OrderService } from "@/core/application/services/order-service";
+import { ProductService } from "@/core/application/services/product.service";
+import { UserService } from "@/core/application/services/user-service";
 
-const { PORT = 3000 } = process.env;
+const { APP_PORT = 3000 } = process.env;
 
 export const setupHttpDriver = (): Express => {
   const app = express();
 
   app.use(express.json());
 
-  const httpOrdersRoutes = new HttpOrdersRoutes(app, new PgOrderRepository(db));
-  const httpProductsRoutes = new HttpProductsRoutes(
-    app,
-    new PgProductRepository(db)
-  );
-  const httpUsersRoutes = new HttpUsersRoutes(app, new PgUserRepository(db));
+  const httpOrdersService = new OrderService(new PgOrderRepository(db));
+  const httpOrdersRoutes = new HttpOrdersRoutes(app, httpOrdersService);
+
+  const httpProductsService = new ProductService(new PgProductRepository(db));
+  const httpProductsRoutes = new HttpProductsRoutes(app, httpProductsService);
+
+  const httpUsersService = new UserService(new PgUserRepository(db));
+  const httpUsersRoutes = new HttpUsersRoutes(app, httpUsersService);
 
   httpOrdersRoutes.setup();
   httpProductsRoutes.setup();
   httpUsersRoutes.setup();
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  app.listen(APP_PORT, () => {
+    console.log(`Server is running on http://localhost:${APP_PORT}`);
   });
 
   return app;

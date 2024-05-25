@@ -1,7 +1,7 @@
 import { ZodError } from "zod";
 import { Express } from "express";
 
-import { UserRepository } from "@/core/application/contracts/user-repository";
+import { UserService } from "@/core/application/services/user-service";
 import {
   createUserRequestBodySchema,
   getUserRequestParamsSchema,
@@ -10,19 +10,19 @@ import {
 export class HttpUsersRoutes {
   constructor(
     private readonly app: Express,
-    private readonly repository: UserRepository
+    private readonly service: UserService
   ) {}
 
   setup(): void {
     this.app.get("/users", async (_, res) => {
-      const users = await this.repository.get();
+      const users = await this.service.get();
       res.status(200).json({ data: users, total: users.length });
     });
 
     this.app.get("/users/:cpf", async (req, res) => {
       try {
         const { cpf } = getUserRequestParamsSchema.parse(req.params);
-        const user = await this.repository.getByCpf(cpf);
+        const user = await this.service.getByCpf(cpf);
         res.status(200).json({ data: user ? [user] : [] });
       } catch (error: any) {
         if (error instanceof ZodError) {
@@ -35,7 +35,7 @@ export class HttpUsersRoutes {
     this.app.post("/users", async (req, res) => {
       try {
         const body = createUserRequestBodySchema.parse(req.body);
-        const createdUser = await this.repository.create(body);
+        const createdUser = await this.service.create(body);
         res.status(201).json(createdUser);
       } catch (error: any) {
         if (error instanceof ZodError) {

@@ -2,13 +2,17 @@ import { Order, OrderStatus } from "@/core/domain/order";
 import { OrderRepository } from "@/core/application/contracts/order-repository";
 
 export class OrderService {
-  constructor(private readonly orderRepository: OrderRepository) {}
+  constructor(private readonly repository: OrderRepository) {}
 
-  getAll(): Order[] {
-    return this.orderRepository.getAll();
+  async get(): Promise<Order[]> {
+    return this.repository.get();
   }
 
-  updateStatus(id: Pick<Order, "id">, status: OrderStatus): Order {
-    return this.orderRepository.updateStatus(id, status);
+  async create(order: Omit<Order, "id">): Promise<Order> {
+    return this.repository.create(order);
+  }
+
+  async updateStatus(id: string, order: OrderStatus): Promise<Order> {
+    return this.repository.updateStatus(id, order);
   }
 }

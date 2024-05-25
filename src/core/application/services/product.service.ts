@@ -2,21 +2,25 @@ import { Product, ProductCategory } from "@/core/domain/product";
 import { ProductRepository } from "@/core/application/contracts/product-repository";
 
 export class ProductService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(private readonly repository: ProductRepository) {}
 
-  save(product: Omit<Product, "id">): Product {
-    return this.productRepository.save(product);
+  async get(): Promise<Product[]> {
+    return this.repository.get();
   }
 
-  update(id: Pick<Product, "id">, product: Partial<Product>): Product {
-    return this.productRepository.update(id, product);
+  async create(product: Omit<Product, "id">): Promise<Product> {
+    return this.repository.create(product);
   }
 
-  remove(id: Pick<Product, "id">): void {
-    return this.productRepository.remove(id);
+  async update(id: string, product: Partial<Product>): Promise<Product> {
+    return this.repository.update(id, product);
   }
 
-  getByCategory(category: ProductCategory): Product[] {
-    return this.productRepository.getByCategory(category);
+  async remove(id: string): Promise<void> {
+    await this.repository.remove(id);
+  }
+
+  async getByCategory(category: ProductCategory): Promise<Product[]> {
+    return this.repository.getByCategory(category);
   }
 }
