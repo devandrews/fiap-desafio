@@ -1,11 +1,8 @@
 import { ProductCategory } from "@/core/domain/product";
 import { z } from "zod";
 
-export const getProductCategoryRequestParamsSchema = z.object({
-  category: z.nativeEnum(ProductCategory),
-});
-
-export const createProductRequestBodySchema = z.object({
+const productSchema = z.object({
+  id: z.string().uuid(),
   name: z.string(),
   category: z.nativeEnum(ProductCategory),
   price: z.number().positive(),
@@ -13,14 +10,32 @@ export const createProductRequestBodySchema = z.object({
   images: z.string().array(),
 });
 
-export const updateProductRequestBodySchema = z
-  .object({
-    name: z.string().optional(),
-    category: z.nativeEnum(ProductCategory).optional(),
-    price: z.number().positive().optional(),
-    description: z.string().optional(),
-    images: z.string().array().optional(),
+// GET
+export const getProductsResponseSchema = z.object({
+  data: z.array(productSchema),
+  total: z.number().int(),
+});
+export const getProductCategoryRequestParamsSchema = productSchema.pick({
+  category: true,
+});
+
+// POST
+export const createProductRequestBodySchema = productSchema.omit({
+  id: true,
+});
+export const createProductResponseSchema = z.object({ data: productSchema });
+
+// PATCH
+export const updateProductRequestBodySchema = productSchema
+  .omit({
+    id: true,
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided",
   });
+export const updateProductResponseSchema = z.object({ data: productSchema });
+
+// DELETE
+export const deleteProductRequestParamsSchema = z.object({
+  id: z.string().uuid(),
+});

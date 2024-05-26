@@ -50,7 +50,11 @@ export class HttpDriver {
 
   setupHttpProductsRoutes(app: Express): void {
     const httpProductsService = new ProductService(new PgProductRepository(db));
-    const httpProductsRoutes = new HttpProductsRoutes(app, httpProductsService);
+    const httpProductsRoutes = new HttpProductsRoutes(
+      app,
+      httpProductsService,
+      this.openAPIRegistry
+    );
     httpProductsRoutes.setup();
   }
 
