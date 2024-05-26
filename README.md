@@ -62,6 +62,10 @@ Variáveis para o servidor HTTP:
   docker compose up --build
 ```
 
+## Documentação
+
+Você pode acessar a documentação dos endpoints em: http://localhost:3000/docs logo após rodar sua aplicação com Docker Compose, descrito nos passos anteriores.
+
 ## Funcionalidades
 
 - Endpoints para criação e visualização de `Usuários`.
