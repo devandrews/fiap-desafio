@@ -9,6 +9,234 @@
     "parameters": {}
   },
   "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Users list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "John Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email",
+                            "example": "username@gmail.com"
+                          },
+                          "cpf": {
+                            "type": "string",
+                            "minLength": 11,
+                            "maxLength": 11,
+                            "description": "CPF must be 11 characters",
+                            "example": "12345678901"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "email",
+                          "cpf"
+                        ]
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "total"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "username@gmail.com"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "minLength": 11,
+                    "maxLength": 11,
+                    "description": "CPF must be 11 characters",
+                    "example": "12345678901"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "cpf"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email",
+                          "example": "username@gmail.com"
+                        },
+                        "cpf": {
+                          "type": "string",
+                          "minLength": 11,
+                          "maxLength": 11,
+                          "description": "CPF must be 11 characters",
+                          "example": "12345678901"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "email",
+                        "cpf"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{cpf}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 11,
+              "maxLength": 11,
+              "description": "CPF must be 11 characters",
+              "example": "12345678901"
+            },
+            "required": true,
+            "name": "cpf",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "John Doe"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email",
+                            "example": "username@gmail.com"
+                          },
+                          "cpf": {
+                            "type": "string",
+                            "minLength": 11,
+                            "maxLength": 11,
+                            "description": "CPF must be 11 characters",
+                            "example": "12345678901"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "email",
+                          "cpf"
+                        ]
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "total"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products": {
       "get": {
         "tags": [
@@ -29,10 +257,12 @@
                         "properties": {
                           "id": {
                             "type": "string",
-                            "format": "uuid"
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174000"
                           },
                           "name": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Product Name"
                           },
                           "category": {
                             "type": "string",
@@ -45,16 +275,21 @@
                           },
                           "price": {
                             "type": "number",
-                            "exclusiveMinimum": 0
+                            "exclusiveMinimum": 0,
+                            "example": 10.99
                           },
                           "description": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Product description"
                           },
                           "images": {
                             "type": "array",
                             "items": {
                               "type": "string"
-                            }
+                            },
+                            "example": [
+                              "https://example.com/image.jpg"
+                            ]
                           }
                         },
                         "required": [
@@ -68,7 +303,8 @@
                       }
                     },
                     "total": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     }
                   },
                   "required": [
@@ -92,7 +328,8 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Product Name"
                   },
                   "category": {
                     "type": "string",
@@ -105,16 +342,21 @@
                   },
                   "price": {
                     "type": "number",
-                    "exclusiveMinimum": 0
+                    "exclusiveMinimum": 0,
+                    "example": 10.99
                   },
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Product description"
                   },
                   "images": {
                     "type": "array",
                     "items": {
                       "type": "string"
-                    }
+                    },
+                    "example": [
+                      "https://example.com/image.jpg"
+                    ]
                   }
                 },
                 "required": [
@@ -141,10 +383,12 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "format": "uuid"
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
                         },
                         "name": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "Product Name"
                         },
                         "category": {
                           "type": "string",
@@ -157,16 +401,21 @@
                         },
                         "price": {
                           "type": "number",
-                          "exclusiveMinimum": 0
+                          "exclusiveMinimum": 0,
+                          "example": 10.99
                         },
                         "description": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "Product description"
                         },
                         "images": {
                           "type": "array",
                           "items": {
                             "type": "string"
-                          }
+                          },
+                          "example": [
+                            "https://example.com/image.jpg"
+                          ]
                         }
                       },
                       "required": [
@@ -231,10 +480,12 @@
                         "properties": {
                           "id": {
                             "type": "string",
-                            "format": "uuid"
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174000"
                           },
                           "name": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Product Name"
                           },
                           "category": {
                             "type": "string",
@@ -247,16 +498,21 @@
                           },
                           "price": {
                             "type": "number",
-                            "exclusiveMinimum": 0
+                            "exclusiveMinimum": 0,
+                            "example": 10.99
                           },
                           "description": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Product description"
                           },
                           "images": {
                             "type": "array",
                             "items": {
                               "type": "string"
-                            }
+                            },
+                            "example": [
+                              "https://example.com/image.jpg"
+                            ]
                           }
                         },
                         "required": [
@@ -270,7 +526,8 @@
                       }
                     },
                     "total": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     }
                   },
                   "required": [
@@ -302,7 +559,8 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Product Name"
                   },
                   "category": {
                     "type": "string",
@@ -315,16 +573,21 @@
                   },
                   "price": {
                     "type": "number",
-                    "exclusiveMinimum": 0
+                    "exclusiveMinimum": 0,
+                    "example": 10.99
                   },
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Product description"
                   },
                   "images": {
                     "type": "array",
                     "items": {
                       "type": "string"
-                    }
+                    },
+                    "example": [
+                      "https://example.com/image.jpg"
+                    ]
                   }
                 },
                 "required": [
@@ -351,10 +614,12 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "format": "uuid"
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
                         },
                         "name": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "Product Name"
                         },
                         "category": {
                           "type": "string",
@@ -367,16 +632,21 @@
                         },
                         "price": {
                           "type": "number",
-                          "exclusiveMinimum": 0
+                          "exclusiveMinimum": 0,
+                          "example": 10.99
                         },
                         "description": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "Product description"
                         },
                         "images": {
                           "type": "array",
                           "items": {
                             "type": "string"
-                          }
+                          },
+                          "example": [
+                            "https://example.com/image.jpg"
+                          ]
                         }
                       },
                       "required": [
@@ -449,7 +719,8 @@
                         "properties": {
                           "id": {
                             "type": "string",
-                            "format": "uuid"
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174000"
                           },
                           "products": {
                             "type": "array",
@@ -458,15 +729,18 @@
                               "properties": {
                                 "id": {
                                   "type": "string",
-                                  "format": "uuid"
+                                  "format": "uuid",
+                                  "example": "123e4567-e89b-12d3-a456-426614174000"
                                 },
                                 "price": {
                                   "type": "number",
-                                  "exclusiveMinimum": 0
+                                  "exclusiveMinimum": 0,
+                                  "example": 10.99
                                 },
                                 "quantity": {
-                                  "type": "number",
-                                  "exclusiveMinimum": 0
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "example": 1
                                 }
                               },
                               "required": [
@@ -478,7 +752,8 @@
                           },
                           "total": {
                             "type": "number",
-                            "exclusiveMinimum": 0
+                            "exclusiveMinimum": 0,
+                            "example": 10.99
                           },
                           "status": {
                             "type": "string",
@@ -499,7 +774,8 @@
                       }
                     },
                     "total": {
-                      "type": "integer"
+                      "type": "integer",
+                      "example": 1
                     }
                   },
                   "required": [
@@ -529,15 +805,18 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "format": "uuid"
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
                         },
                         "price": {
                           "type": "number",
-                          "exclusiveMinimum": 0
+                          "exclusiveMinimum": 0,
+                          "example": 10.99
                         },
                         "quantity": {
-                          "type": "number",
-                          "exclusiveMinimum": 0
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "example": 1
                         }
                       },
                       "required": [
@@ -549,7 +828,8 @@
                   },
                   "total": {
                     "type": "number",
-                    "exclusiveMinimum": 0
+                    "exclusiveMinimum": 0,
+                    "example": 10.99
                   },
                   "status": {
                     "type": "string",
@@ -583,7 +863,8 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "format": "uuid"
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
                         },
                         "products": {
                           "type": "array",
@@ -592,15 +873,18 @@
                             "properties": {
                               "id": {
                                 "type": "string",
-                                "format": "uuid"
+                                "format": "uuid",
+                                "example": "123e4567-e89b-12d3-a456-426614174000"
                               },
                               "price": {
                                 "type": "number",
-                                "exclusiveMinimum": 0
+                                "exclusiveMinimum": 0,
+                                "example": 10.99
                               },
                               "quantity": {
-                                "type": "number",
-                                "exclusiveMinimum": 0
+                                "type": "integer",
+                                "exclusiveMinimum": 0,
+                                "example": 1
                               }
                             },
                             "required": [
@@ -612,7 +896,8 @@
                         },
                         "total": {
                           "type": "number",
-                          "exclusiveMinimum": 0
+                          "exclusiveMinimum": 0,
+                          "example": 10.99
                         },
                         "status": {
                           "type": "string",
@@ -689,7 +974,8 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "format": "uuid"
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
                         },
                         "products": {
                           "type": "array",
@@ -698,15 +984,18 @@
                             "properties": {
                               "id": {
                                 "type": "string",
-                                "format": "uuid"
+                                "format": "uuid",
+                                "example": "123e4567-e89b-12d3-a456-426614174000"
                               },
                               "price": {
                                 "type": "number",
-                                "exclusiveMinimum": 0
+                                "exclusiveMinimum": 0,
+                                "example": 10.99
                               },
                               "quantity": {
-                                "type": "number",
-                                "exclusiveMinimum": 0
+                                "type": "integer",
+                                "exclusiveMinimum": 0,
+                                "example": 1
                               }
                             },
                             "required": [
@@ -718,7 +1007,8 @@
                         },
                         "total": {
                           "type": "number",
-                          "exclusiveMinimum": 0
+                          "exclusiveMinimum": 0,
+                          "example": 10.99
                         },
                         "status": {
                           "type": "string",

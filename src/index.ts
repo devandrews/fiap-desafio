@@ -1,17 +1,13 @@
 import "dotenv/config";
 
-import { z } from "zod";
 import {
   OpenAPIRegistry,
   OpenApiGeneratorV31,
-  extendZodWithOpenApi,
 } from "@asteasolutions/zod-to-openapi";
 import path from "path";
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
 import { HttpDriver } from "@/adapter/driver/http";
-
-extendZodWithOpenApi(z);
 
 export const OPEN_API_FILE_PATH = path.join(process.cwd(), "openapi.json");
 

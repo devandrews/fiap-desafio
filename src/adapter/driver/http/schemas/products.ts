@@ -1,19 +1,34 @@
+import { z } from "@/adapter/driver/validators/zod";
 import { ProductCategory } from "@/core/domain/product";
-import { z } from "zod";
 
 const productSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
+  id: z.string().uuid().openapi({
+    example: "123e4567-e89b-12d3-a456-426614174000",
+  }),
+  name: z.string().openapi({
+    example: "Product Name",
+  }),
   category: z.nativeEnum(ProductCategory),
-  price: z.number().positive(),
-  description: z.string(),
-  images: z.string().array(),
+  price: z.number().positive().openapi({
+    example: 10.99,
+  }),
+  description: z.string().openapi({
+    example: "Product description",
+  }),
+  images: z
+    .string()
+    .array()
+    .openapi({
+      example: ["https://example.com/image.jpg"],
+    }),
 });
 
 // GET
 export const getProductsResponseSchema = z.object({
   data: z.array(productSchema),
-  total: z.number().int(),
+  total: z.number().int().openapi({
+    example: 1,
+  }),
 });
 export const getProductCategoryRequestParamsSchema = productSchema.pick({
   category: true,

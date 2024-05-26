@@ -4,14 +4,20 @@ import { Express } from "express";
 import { UserService } from "@/core/application/services/user-service";
 import {
   createUserRequestBodySchema,
+  createUserResponseSchema,
   getUserRequestParamsSchema,
+  getUsersResponseSchema,
 } from "../schemas/users";
+import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 
 export class HttpUsersRoutes {
   constructor(
     private readonly app: Express,
-    private readonly service: UserService
-  ) {}
+    private readonly service: UserService,
+    private readonly openAPIRegistry: OpenAPIRegistry
+  ) {
+    this.openApi();
+  }
 
   setup(): void {
     this.app.get("/users", async (_, res) => {
@@ -43,6 +49,71 @@ export class HttpUsersRoutes {
         }
         res.status(500).json({ error: error.message });
       }
+    });
+  }
+
+  openApi(): void {
+    // GET /users
+    this.openAPIRegistry.registerPath({
+      tags: ["Users"],
+      method: "get",
+      path: "/users",
+      responses: {
+        200: {
+          description: "Users list",
+          content: {
+            "application/json": {
+              schema: getUsersResponseSchema,
+            },
+          },
+        },
+      },
+    });
+
+    // GET /users/:cpf
+    this.openAPIRegistry.registerPath({
+      tags: ["Users"],
+      method: "get",
+      path: "/users/{cpf}",
+      request: {
+        params: getUserRequestParamsSchema,
+      },
+      responses: {
+        200: {
+          description: "User",
+          content: {
+            "application/json": {
+              schema: getUsersResponseSchema,
+            },
+          },
+        },
+      },
+    });
+
+    // POST /users
+    this.openAPIRegistry.registerPath({
+      tags: ["Users"],
+      method: "post",
+      path: "/users",
+      request: {
+        body: {
+          content: {
+            "application/json": {
+              schema: createUserRequestBodySchema,
+            },
+          },
+        },
+      },
+      responses: {
+        201: {
+          description: "User created",
+          content: {
+            "application/json": {
+              schema: createUserResponseSchema,
+            },
+          },
+        },
+      },
     });
   }
 }

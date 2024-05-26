@@ -44,7 +44,11 @@ export class HttpDriver {
 
   setupHttpUsersRoutes(app: Express): void {
     const httpUsersService = new UserService(new PgUserRepository(db));
-    const httpUsersRoutes = new HttpUsersRoutes(app, httpUsersService);
+    const httpUsersRoutes = new HttpUsersRoutes(
+      app,
+      httpUsersService,
+      this.openAPIRegistry
+    );
     httpUsersRoutes.setup();
   }
 
