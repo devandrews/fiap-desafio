@@ -7,7 +7,7 @@ import {
   createProductRequestBodySchema,
   getProductCategoryRequestParamsSchema,
   updateProductRequestBodySchema,
-} from "../validators/products";
+} from "../schemas/products";
 
 export class HttpProductsRoutes {
   constructor(

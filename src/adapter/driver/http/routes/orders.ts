@@ -4,14 +4,20 @@ import { Express } from "express";
 import { OrderService } from "@/core/application/services/order-service";
 import {
   createOrderRequestBodySchema,
+  createOrderResponseSchema,
+  getOrdersResponseSchema,
   updateOrderStatusRequestBodySchema,
-} from "../validators/orders";
+} from "../schemas/orders";
+import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 
 export class HttpOrdersRoutes {
   constructor(
     private readonly app: Express,
-    private readonly service: OrderService
-  ) {}
+    private readonly service: OrderService,
+    private readonly openAPIRegistry: OpenAPIRegistry
+  ) {
+    this.openApi();
+  }
 
   setup(): void {
     this.app.get("/orders", async (__, res) => {
@@ -44,6 +50,89 @@ export class HttpOrdersRoutes {
         }
         res.status(500).json({ error: error.message });
       }
+    });
+  }
+
+  openApi(): void {
+    // GET /orders
+    this.openAPIRegistry.registerPath({
+      tags: ["Orders"],
+      method: "get",
+      path: "/orders",
+      responses: {
+        200: {
+          description: "Orders list",
+          content: {
+            "application/json": {
+              schema: getOrdersResponseSchema,
+            },
+          },
+        },
+      },
+    });
+
+    // POST /orders
+    this.openAPIRegistry.registerPath({
+      tags: ["Orders"],
+      method: "post",
+      path: "/orders",
+      request: {
+        body: {
+          content: {
+            "application/json": {
+              schema: createOrderRequestBodySchema,
+            },
+          },
+        },
+      },
+      responses: {
+        201: {
+          description: "Order created",
+          content: {
+            "application/json": {
+              schema: createOrderResponseSchema,
+            },
+          },
+        },
+        400: {
+          description: "Invalid request body",
+        },
+        500: {
+          description: "Internal server error",
+        },
+      },
+    });
+
+    // PATCH /order/:id/status
+    this.openAPIRegistry.registerPath({
+      tags: ["Orders"],
+      method: "patch",
+      path: "/order/:id/status",
+      request: {
+        body: {
+          content: {
+            "application/json": {
+              schema: updateOrderStatusRequestBodySchema,
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: "Order status updated",
+          content: {
+            "application/json": {
+              schema: createOrderResponseSchema,
+            },
+          },
+        },
+        400: {
+          description: "Invalid request body",
+        },
+        500: {
+          description: "Internal server error",
+        },
+      },
     });
   }
 }

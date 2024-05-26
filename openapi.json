@@ -1,0 +1,332 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sistema de controle de pedidos"
+  },
+  "components": {
+    "schemas": {},
+    "parameters": {}
+  },
+  "paths": {
+    "/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "products": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "price": {
+                                  "type": "number",
+                                  "exclusiveMinimum": 0
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "exclusiveMinimum": 0
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "price",
+                                "quantity"
+                              ]
+                            }
+                          },
+                          "total": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "Recebido",
+                              "Em preparação",
+                              "Pronto",
+                              "Finalizado"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "products",
+                          "total",
+                          "status"
+                        ]
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "total"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "price",
+                        "quantity"
+                      ]
+                    }
+                  },
+                  "total": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Recebido",
+                      "Em preparação",
+                      "Pronto",
+                      "Finalizado"
+                    ]
+                  }
+                },
+                "required": [
+                  "products",
+                  "total",
+                  "status"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "price",
+                              "quantity"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "Recebido",
+                            "Em preparação",
+                            "Pronto",
+                            "Finalizado"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "products",
+                        "total",
+                        "status"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/order/:id/status": {
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Recebido",
+                      "Em preparação",
+                      "Pronto",
+                      "Finalizado"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order status updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "products": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "price",
+                              "quantity"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "Recebido",
+                            "Em preparação",
+                            "Pronto",
+                            "Finalizado"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "products",
+                        "total",
+                        "status"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

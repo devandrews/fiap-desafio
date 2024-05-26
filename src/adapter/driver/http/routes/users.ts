@@ -5,7 +5,7 @@ import { UserService } from "@/core/application/services/user-service";
 import {
   createUserRequestBodySchema,
   getUserRequestParamsSchema,
-} from "../validators/users";
+} from "../schemas/users";
 
 export class HttpUsersRoutes {
   constructor(
