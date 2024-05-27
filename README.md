@@ -54,7 +54,7 @@ Variáveis para o servidor HTTP:
   npm install
 ```
 
-- Copie o arquivo .env disponibilizado na entrega da atividade.
+- Copie o arquivo `.env` disponibilizado na entrega da atividade. Ou se preferir, copie e cole o arquivo `.env.sample` e renomeie para `.env`.
 
 - Inicie o servidor e a database utilizando Docker Compose
 
