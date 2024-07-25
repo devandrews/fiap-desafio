@@ -6,7 +6,7 @@ module.exports = {
     '@/tests/(.+)': '<rootDit>/tests/$1',
     '@/(.+)': '<rootDit>/src/$1'
   },
-  roots: ['<rootDir>/src', '<rootDir>/tests'],
+  roots: ['<rootDir>/src'],
   transform: {
     '\\.ts$': 'ts-jest'
   }
