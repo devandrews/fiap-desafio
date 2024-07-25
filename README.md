@@ -62,6 +62,24 @@ Variáveis para o servidor HTTP:
   docker compose up --build
 ```
 
+## Rodando com Kubernetes (Local)
+
+- Certifique-se de ter Docker Desktop com Kubernetes instalado, ou minikube. O passo-a-passo será elaborado baseando-se em um ambiente com Docker Desktop + Kubernetes.
+
+- Certifique-se de seguir os passos anteriores e ter na raiz do diretório o arquivo .env atualizado.
+
+- Rode o seguinte comando para criar um arquivo de secrets que será utilizado na aplicação k8s:
+
+```bash
+  kubectl create secret generic api-secrets --from-env-file=.env
+```
+
+- Após isso podemos aplicar todos os nossos arquivo yaml de uma só vez rodando o seguinte comando(atenção: pode demorar alguns minutos para o k8s terminar de preparar a aplicação):
+
+```bash
+  kubectl apply -f k8s
+```
+
 ## Documentação
 
 Você pode acessar a documentação dos endpoints em: http://localhost:3000/docs logo após rodar sua aplicação com Docker Compose, descrito nos passos anteriores.

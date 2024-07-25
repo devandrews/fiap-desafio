@@ -1,24 +1,24 @@
-import { Knex } from "knex";
+import { Knex } from 'knex'
 
-import { UserRepository } from "@/core/application/contracts/user-repository";
-import { User } from "@/core/domain/user";
+import { UserRepository } from '@/core/application/contracts/user-repository'
+import { User } from '@/core/domain/user'
 
 export class PgUserRepository implements UserRepository {
-  constructor(private readonly db: Knex) {}
+  constructor (private readonly db: Knex) {}
 
-  async get(): Promise<User[]> {
-    return await this.db("users");
+  async get (): Promise<User[]> {
+    return await this.db('users')
   }
 
-  async getByCpf(cpf: string): Promise<User> {
-    const user = await this.db.select("*").from("users").where({ cpf }).first();
+  async getByCpf (cpf: string): Promise<User> {
+    const user = await this.db.select('*').from('users').where({ cpf }).first()
 
-    return user;
+    return user
   }
 
-  async create(user: Omit<User, "id">): Promise<User> {
-    const [createdUser] = await this.db("users").insert(user).returning("*");
+  async create (user: Omit<User, 'id'>): Promise<User> {
+    const [createdUser] = await this.db('users').insert(user).returning('*')
 
-    return createdUser;
+    return createdUser
   }
 }

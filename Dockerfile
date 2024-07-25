@@ -8,10 +8,6 @@ RUN npm install
 
 COPY . .
 
-COPY .env ./dist
-
 RUN npm run build
-
-COPY . .
 
 CMD ["npm", "start"]

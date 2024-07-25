@@ -1,13 +1,13 @@
-import { Product, ProductCategory } from "@/core/domain/product";
+import { Product, ProductCategory } from '@/core/domain/product'
 
 export interface ProductRepository {
-  get(): Promise<Product[]>;
+  get: () => Promise<Product[]>
 
-  create(product: Omit<Product, "id">): Promise<Product>;
+  create: (product: Omit<Product, 'id'>) => Promise<Product>
 
-  update(id: string, product: Partial<Product>): Promise<Product>;
+  update: (id: string, product: Partial<Product>) => Promise<Product>
 
-  remove(id: string): Promise<void>;
+  remove: (id: string) => Promise<void>
 
-  getByCategory(category: ProductCategory): Promise<Product[]>;
+  getByCategory: (category: ProductCategory) => Promise<Product[]>
 }

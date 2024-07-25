@@ -1,15 +1,15 @@
 export enum ProductCategory {
-  LANCHE = "Lanche",
-  ACOMPANHAMENTO = "Acompanhamento",
-  BEBIDA = "Bebida",
-  SOBREMESA = "Sobremesa",
+  LANCHE = 'Lanche',
+  ACOMPANHAMENTO = 'Acompanhamento',
+  BEBIDA = 'Bebida',
+  SOBREMESA = 'Sobremesa',
 }
 
-export type Product = {
-  id: string;
-  name: string;
-  category: ProductCategory;
-  price: number;
-  description: string;
-  images: string[];
-};
+export interface Product {
+  id: string
+  name: string
+  category: ProductCategory
+  price: number
+  description: string
+  images: string[]
+}

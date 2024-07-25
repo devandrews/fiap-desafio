@@ -1,9 +1,9 @@
-import { User } from "@/core/domain/user";
+import { User } from '@/core/domain/user'
 
 export interface UserRepository {
-  get(): Promise<User[]>;
+  get: () => Promise<User[]>
 
-  getByCpf(cpf: string): Promise<User>;
+  getByCpf: (cpf: string) => Promise<User>
 
-  create(user: Omit<User, "id">): Promise<User>;
+  create: (user: Omit<User, 'id'>) => Promise<User>
 }

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-db-pod
+  template:
+    metadata:
+      labels:
+        app: api-db-pod
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13.13-alpine
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: api-db-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: api-db-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: api-db-config
+                  key: POSTGRES_PORT
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: api-db-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: api-db-storage
+          persistentVolumeClaim:
+            claimName: api-db-pvc

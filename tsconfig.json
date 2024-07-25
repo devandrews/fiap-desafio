@@ -16,6 +16,6 @@
     },
     "strict": true
   },
-  "include": ["./src", "tests", "src/adapter/driven/infra/pg/knexfile.ts"],
+  "include": ["./src", "tests", "knexfile.ts"],
   "files": ["src/types.d.ts"]
 }

@@ -1,8 +1,8 @@
-import { ZodError } from "zod";
-import { Express } from "express";
+import { ZodError } from 'zod'
+import { Express } from 'express'
 
-import { ProductCategory } from "@/core/domain/product";
-import { ProductService } from "@/core/application/services/product.service";
+import { ProductCategory } from '@/core/domain/product'
+import { ProductService } from '@/core/application/services/product.service'
 import {
   createProductRequestBodySchema,
   createProductResponseSchema,
@@ -10,199 +10,199 @@ import {
   getProductCategoryRequestParamsSchema,
   getProductsResponseSchema,
   updateProductRequestBodySchema,
-  updateProductResponseSchema,
-} from "../schemas/products";
-import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
+  updateProductResponseSchema
+} from '../schemas/products'
+import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
 
 export class HttpProductsRoutes {
-  constructor(
+  constructor (
     private readonly app: Express,
     private readonly service: ProductService,
     private readonly openAPIRegistry: OpenAPIRegistry
   ) {
-    this.openApi();
+    this.openApi()
   }
 
-  setup(): void {
-    this.app.get("/products", async (_, res) => {
-      const products = await this.service.get();
-      res.status(200).json({ data: products, total: products.length });
-    });
+  setup (): void {
+    this.app.get('/products', async (_, res) => {
+      const products = await this.service.get()
+      res.status(200).json({ data: products, total: products.length })
+    })
 
-    this.app.get("/products/:category", async (req, res) => {
+    this.app.get('/products/:category', async (req, res) => {
       try {
-        getProductCategoryRequestParamsSchema.parse(req.params);
-        const { category } = req.params;
+        getProductCategoryRequestParamsSchema.parse(req.params)
+        const { category } = req.params
         const products = await this.service.getByCategory(
           category as ProductCategory
-        );
-        res.status(200).json({ data: products, total: products.length });
+        )
+        res.status(200).json({ data: products, total: products.length })
       } catch (error: any) {
         if (error instanceof ZodError) {
-          return res.status(400).json({ error: error.errors });
+          return res.status(400).json({ error: error.errors })
         }
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message })
       }
-    });
+    })
 
-    this.app.post("/products", async (req, res) => {
+    this.app.post('/products', async (req, res) => {
       try {
-        const body = createProductRequestBodySchema.parse(req.body);
-        const product = await this.service.create(body);
-        res.status(201).json({ data: product });
+        const body = createProductRequestBodySchema.parse(req.body)
+        const product = await this.service.create(body)
+        res.status(201).json({ data: product })
       } catch (error: any) {
         if (error instanceof ZodError) {
-          return res.status(400).json({ error: error.errors });
+          return res.status(400).json({ error: error.errors })
         }
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message })
       }
-    });
+    })
 
-    this.app.patch("/products/:id", async (req, res) => {
+    this.app.patch('/products/:id', async (req, res) => {
       try {
-        const body = updateProductRequestBodySchema.parse(req.body);
-        const { id } = req.params;
-        const product = await this.service.update(id, body);
-        res.status(200).json({ data: product });
+        const body = updateProductRequestBodySchema.parse(req.body)
+        const { id } = req.params
+        const product = await this.service.update(id, body)
+        res.status(200).json({ data: product })
       } catch (error: any) {
         if (error instanceof ZodError) {
-          return res.status(400).json({ error: error.errors });
+          return res.status(400).json({ error: error.errors })
         }
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message })
       }
-    });
+    })
 
-    this.app.delete("/products/:id", async (req, res) => {
-      const { id } = req.params;
-      await this.service.remove(id);
-      res.status(204).send();
-    });
+    this.app.delete('/products/:id', async (req, res) => {
+      const { id } = req.params
+      await this.service.remove(id)
+      res.status(204).send()
+    })
   }
 
-  openApi(): void {
+  openApi (): void {
     // GET /products
     this.openAPIRegistry.registerPath({
-      tags: ["Products"],
-      method: "get",
-      path: "/products",
+      tags: ['Products'],
+      method: 'get',
+      path: '/products',
       responses: {
         200: {
-          description: "Products list",
+          description: 'Products list',
           content: {
-            "application/json": {
-              schema: getProductsResponseSchema,
-            },
-          },
-        },
-      },
-    });
+            'application/json': {
+              schema: getProductsResponseSchema
+            }
+          }
+        }
+      }
+    })
 
     // GET /products/:category
     this.openAPIRegistry.registerPath({
-      tags: ["Products"],
-      method: "get",
-      path: "/products/{category}",
+      tags: ['Products'],
+      method: 'get',
+      path: '/products/{category}',
       request: {
-        params: getProductCategoryRequestParamsSchema,
+        params: getProductCategoryRequestParamsSchema
       },
       responses: {
         200: {
-          description: "Products list by category",
+          description: 'Products list by category',
           content: {
-            "application/json": {
-              schema: getProductsResponseSchema,
-            },
-          },
+            'application/json': {
+              schema: getProductsResponseSchema
+            }
+          }
         },
         400: {
-          description: "Invalid request body",
+          description: 'Invalid request body'
         },
         500: {
-          description: "Internal server error",
-        },
-      },
-    });
+          description: 'Internal server error'
+        }
+      }
+    })
 
     // POST /products
     this.openAPIRegistry.registerPath({
-      tags: ["Products"],
-      method: "post",
-      path: "/products",
+      tags: ['Products'],
+      method: 'post',
+      path: '/products',
       request: {
         body: {
           content: {
-            "application/json": {
-              schema: createProductRequestBodySchema,
-            },
-          },
-        },
+            'application/json': {
+              schema: createProductRequestBodySchema
+            }
+          }
+        }
       },
       responses: {
         201: {
-          description: "Product created",
+          description: 'Product created',
           content: {
-            "application/json": {
-              schema: createProductResponseSchema,
-            },
-          },
+            'application/json': {
+              schema: createProductResponseSchema
+            }
+          }
         },
         400: {
-          description: "Invalid request body",
+          description: 'Invalid request body'
         },
         500: {
-          description: "Internal server error",
-        },
-      },
-    });
+          description: 'Internal server error'
+        }
+      }
+    })
 
     // PATCH /products/:id
     this.openAPIRegistry.registerPath({
-      tags: ["Products"],
-      method: "patch",
-      path: "/products/{id}",
+      tags: ['Products'],
+      method: 'patch',
+      path: '/products/{id}',
       request: {
         body: {
           content: {
-            "application/json": {
-              schema: updateProductRequestBodySchema,
-            },
-          },
-        },
+            'application/json': {
+              schema: updateProductRequestBodySchema
+            }
+          }
+        }
       },
       responses: {
         200: {
-          description: "Product updated",
+          description: 'Product updated',
           content: {
-            "application/json": {
-              schema: updateProductResponseSchema,
-            },
-          },
+            'application/json': {
+              schema: updateProductResponseSchema
+            }
+          }
         },
         400: {
-          description: "Invalid request body",
+          description: 'Invalid request body'
         },
         500: {
-          description: "Internal server error",
-        },
-      },
-    });
+          description: 'Internal server error'
+        }
+      }
+    })
 
     // DELETE /products/:id
     this.openAPIRegistry.registerPath({
-      tags: ["Products"],
-      method: "delete",
-      path: "/products/{id}",
+      tags: ['Products'],
+      method: 'delete',
+      path: '/products/{id}',
       request: {
-        params: deleteProductRequestParamsSchema,
+        params: deleteProductRequestParamsSchema
       },
       responses: {
         204: {
-          description: "Product deleted",
+          description: 'Product deleted'
         },
         500: {
-          description: "Internal server error",
-        },
-      },
-    });
+          description: 'Internal server error'
+        }
+      }
+    })
   }
 }
