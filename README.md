@@ -84,6 +84,11 @@ Variáveis para o servidor HTTP:
 
 Você pode acessar a documentação dos endpoints em: http://localhost:3000/docs logo após rodar sua aplicação com Docker Compose, descrito nos passos anteriores.
 
+## Diagramação
+
+![alt text](diagram.png)
+![alt text](diagram-k8s.png)
+
 ## Funcionalidades
 
 - Endpoints para criação e visualização de `Usuários`.
