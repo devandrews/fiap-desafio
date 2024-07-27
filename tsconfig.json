@@ -16,6 +16,6 @@
     },
     "strict": true
   },
-  "include": ["./src", "tests", "knexfile.ts"],
+  "include": ["./src", "tests"],
   "files": ["src/types.d.ts"]
 }

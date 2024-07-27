@@ -8,6 +8,7 @@ import path from 'path'
 import { readFileSync } from 'fs'
 import { writeFile } from 'fs/promises'
 import { HttpDriver } from '@/adapter/driver/http'
+import db from '@/external/pg/db'
 
 export const OPEN_API_FILE_PATH = path.join(process.cwd(), 'openapi.json')
 
@@ -42,7 +43,7 @@ export function readOpenApiDocumentation () {
 
 function main () {
   const openAPIRegistry = new OpenAPIRegistry()
-  const httpDriver = new HttpDriver(openAPIRegistry)
+  const httpDriver = new HttpDriver(db, openAPIRegistry)
 
   httpDriver.start()
 

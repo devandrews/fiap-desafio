@@ -1,4 +1,4 @@
-import { z } from '@/adapter/driver/validators/zod'
+import { z } from '@/external/validators/zod'
 
 import { OrderStatus } from '@/core/domain/order'
 

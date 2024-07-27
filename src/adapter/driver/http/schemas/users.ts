@@ -1,4 +1,4 @@
-import { z } from '@/adapter/driver/validators/zod'
+import { z } from '@/external/validators/zod'
 
 const userSchema = z.object({
   id: z.string().uuid().openapi({
