@@ -1,4 +1,4 @@
-import { z } from '@/external/validators/zod'
+import { z } from '@/external/zod'
 
 import { OrderStatus } from '@/entities/order'
 

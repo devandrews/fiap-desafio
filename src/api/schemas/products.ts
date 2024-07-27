@@ -1,4 +1,4 @@
-import { z } from '@/external/validators/zod'
+import { z } from '@/external/zod'
 import { ProductCategory } from '@/entities/product'
 
 const productSchema = z.object({
