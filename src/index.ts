@@ -7,7 +7,8 @@ import {
 import path from 'path'
 import { readFileSync } from 'fs'
 import { writeFile } from 'fs/promises'
-import { HttpDriver } from '@/adapter/driver/http'
+
+import { HttpDriver } from '@/api'
 import db from '@/external/pg/db'
 
 export const OPEN_API_FILE_PATH = path.join(process.cwd(), 'openapi.json')

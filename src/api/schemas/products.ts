@@ -1,5 +1,5 @@
 import { z } from '@/external/validators/zod'
-import { ProductCategory } from '@/core/domain/product'
+import { ProductCategory } from '@/entities/product'
 
 const productSchema = z.object({
   id: z.string().uuid().openapi({

@@ -1,8 +1,8 @@
-import { User } from '@/core/domain/user'
-import { UserRepository } from '@/core/application/contracts/user-repository'
+import { User } from '@/entities/user'
+import { UserGatewayInterface } from '@/gateways/user'
 
-export class UserService {
-  constructor (private readonly repository: UserRepository) {}
+export class UserUsecase {
+  constructor (private readonly repository: UserGatewayInterface) {}
 
   async get (): Promise<User[]> {
     return await this.repository.get()

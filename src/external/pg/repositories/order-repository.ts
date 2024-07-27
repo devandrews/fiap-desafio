@@ -1,8 +1,8 @@
-import { OrderRepository } from '@/core/application/contracts/order-repository'
-import { Order, OrderStatus } from '@/core/domain/order'
+import { OrderGatewayInterface } from '@/gateways/order'
+import { Order, OrderStatus } from '@/entities/order'
 import { DbConnection } from '@/interfaces/db-connection'
 
-export class PgOrderRepository implements OrderRepository {
+export class PgOrderGatewayInterface implements OrderGatewayInterface {
   constructor (private readonly db: DbConnection) {}
 
   async get (): Promise<Order[]> {

@@ -1,8 +1,8 @@
-import { Order, OrderStatus } from '@/core/domain/order'
-import { OrderRepository } from '@/core/application/contracts/order-repository'
+import { Order, OrderStatus } from '@/entities/order'
+import { OrderGatewayInterface } from '@/gateways/order'
 
-export class OrderService {
-  constructor (private readonly repository: OrderRepository) {}
+export class OrderUsecase {
+  constructor (private readonly repository: OrderGatewayInterface) {}
 
   async get (): Promise<Order[]> {
     return await this.repository.get()

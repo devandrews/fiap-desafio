@@ -1,19 +1,22 @@
 import express, { Express } from 'express'
 import swaggerUi from 'swagger-ui-express'
 
-import { PgOrderRepository } from '@/external/pg/repositories/order-repository'
-import { PgProductRepository } from '@/external/pg/repositories/product-repository'
+import { PgOrderGatewayInterface } from '@/external/pg/repositories/order-repository'
+import { PgProductGatewayInterface } from '@/external/pg/repositories/product-repository'
+import { PgUserGatewayInterface } from '@/external/pg/repositories/user-repository'
+
+import { OrderUsecase } from '@/usecases/order'
+import { ProductUsecase } from '@/usecases/product'
+import { UserUsecase } from '@/usecases/user'
+
+import { DbConnection } from '@/interfaces/db-connection'
 
 import { HttpOrdersRoutes } from './routes/orders'
 import { HttpProductsRoutes } from './routes/products'
 import { HttpUsersRoutes } from './routes/users'
-import { PgUserRepository } from '@/external/pg/repositories/user-repository'
-import { OrderService } from '@/core/application/services/order-service'
-import { ProductService } from '@/core/application/services/product.service'
-import { UserService } from '@/core/application/services/user-service'
-import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
 import { HttpDocsRoutes } from './routes/docs'
-import { DbConnection } from '@/interfaces/db-connection'
+
+import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
 
 const { APP_PORT = 3000 } = process.env
 
@@ -46,32 +49,36 @@ export class HttpDriver {
   }
 
   setupHttpUsersRoutes (app: Express): void {
-    const httpUsersService = new UserService(new PgUserRepository(this.db))
+    const httpUsersUsecase = new UserUsecase(
+      new PgUserGatewayInterface(this.db)
+    )
     const httpUsersRoutes = new HttpUsersRoutes(
       app,
-      httpUsersService,
+      httpUsersUsecase,
       this.openAPIRegistry
     )
     httpUsersRoutes.setup()
   }
 
   setupHttpProductsRoutes (app: Express): void {
-    const httpProductsService = new ProductService(
-      new PgProductRepository(this.db)
+    const httpProductsUsecase = new ProductUsecase(
+      new PgProductGatewayInterface(this.db)
     )
     const httpProductsRoutes = new HttpProductsRoutes(
       app,
-      httpProductsService,
+      httpProductsUsecase,
       this.openAPIRegistry
     )
     httpProductsRoutes.setup()
   }
 
   setupHttpOrdersRoutes (app: Express): void {
-    const httpOrdersService = new OrderService(new PgOrderRepository(this.db))
+    const httpOrdersUsecase = new OrderUsecase(
+      new PgOrderGatewayInterface(this.db)
+    )
     const httpOrdersRoutes = new HttpOrdersRoutes(
       app,
-      httpOrdersService,
+      httpOrdersUsecase,
       this.openAPIRegistry
     )
     httpOrdersRoutes.setup()

@@ -1,8 +1,8 @@
 import { ZodError } from 'zod'
 import { Express } from 'express'
 
-import { ProductCategory } from '@/core/domain/product'
-import { ProductService } from '@/core/application/services/product.service'
+import { ProductCategory } from '@/entities/product'
+import { ProductUsecase } from '@/usecases/product'
 import {
   createProductRequestBodySchema,
   createProductResponseSchema,
@@ -12,12 +12,13 @@ import {
   updateProductRequestBodySchema,
   updateProductResponseSchema
 } from '../schemas/products'
+
 import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
 
 export class HttpProductsRoutes {
   constructor (
     private readonly app: Express,
-    private readonly service: ProductService,
+    private readonly usecase: ProductUsecase,
     private readonly openAPIRegistry: OpenAPIRegistry
   ) {
     this.openApi()
@@ -25,7 +26,7 @@ export class HttpProductsRoutes {
 
   setup (): void {
     this.app.get('/products', async (_, res) => {
-      const products = await this.service.get()
+      const products = await this.usecase.get()
       res.status(200).json({ data: products, total: products.length })
     })
 
@@ -33,7 +34,7 @@ export class HttpProductsRoutes {
       try {
         getProductCategoryRequestParamsSchema.parse(req.params)
         const { category } = req.params
-        const products = await this.service.getByCategory(
+        const products = await this.usecase.getByCategory(
           category as ProductCategory
         )
         res.status(200).json({ data: products, total: products.length })
@@ -48,7 +49,7 @@ export class HttpProductsRoutes {
     this.app.post('/products', async (req, res) => {
       try {
         const body = createProductRequestBodySchema.parse(req.body)
-        const product = await this.service.create(body)
+        const product = await this.usecase.create(body)
         res.status(201).json({ data: product })
       } catch (error: any) {
         if (error instanceof ZodError) {
@@ -62,7 +63,7 @@ export class HttpProductsRoutes {
       try {
         const body = updateProductRequestBodySchema.parse(req.body)
         const { id } = req.params
-        const product = await this.service.update(id, body)
+        const product = await this.usecase.update(id, body)
         res.status(200).json({ data: product })
       } catch (error: any) {
         if (error instanceof ZodError) {
@@ -74,7 +75,7 @@ export class HttpProductsRoutes {
 
     this.app.delete('/products/:id', async (req, res) => {
       const { id } = req.params
-      await this.service.remove(id)
+      await this.usecase.remove(id)
       res.status(204).send()
     })
   }

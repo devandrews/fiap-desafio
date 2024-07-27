@@ -1,8 +1,8 @@
-import { UserRepository } from '@/core/application/contracts/user-repository'
-import { User } from '@/core/domain/user'
+import { UserGatewayInterface } from '@/gateways/user'
+import { User } from '@/entities/user'
 import { DbConnection } from '@/interfaces/db-connection'
 
-export class PgUserRepository implements UserRepository {
+export class PgUserGatewayInterface implements UserGatewayInterface {
   constructor (private readonly db: DbConnection) {}
 
   async get (): Promise<User[]> {

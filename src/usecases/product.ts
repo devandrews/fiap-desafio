@@ -1,8 +1,8 @@
-import { Product, ProductCategory } from '@/core/domain/product'
-import { ProductRepository } from '@/core/application/contracts/product-repository'
+import { Product, ProductCategory } from '@/entities/product'
+import { ProductGatewayInterface } from '@/gateways/product'
 
-export class ProductService {
-  constructor (private readonly repository: ProductRepository) {}
+export class ProductUsecase {
+  constructor (private readonly repository: ProductGatewayInterface) {}
 
   async get (): Promise<Product[]> {
     return await this.repository.get()

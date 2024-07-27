@@ -1,13 +1,9 @@
-import { Product, ProductCategory } from '@/core/domain/product'
+import { Product, ProductCategory } from '@/entities/product'
 
-export interface ProductRepository {
+export interface ProductGatewayInterface {
   get: () => Promise<Product[]>
-
   create: (product: Omit<Product, 'id'>) => Promise<Product>
-
   update: (id: string, product: Partial<Product>) => Promise<Product>
-
   remove: (id: string) => Promise<void>
-
   getByCategory: (category: ProductCategory) => Promise<Product[]>
 }

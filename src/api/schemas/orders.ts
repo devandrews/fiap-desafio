@@ -1,6 +1,6 @@
 import { z } from '@/external/validators/zod'
 
-import { OrderStatus } from '@/core/domain/order'
+import { OrderStatus } from '@/entities/order'
 
 const orderItemSchema = z.object({
   id: z.string().uuid().openapi({

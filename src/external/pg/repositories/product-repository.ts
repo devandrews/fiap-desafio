@@ -1,8 +1,8 @@
-import { ProductRepository } from '@/core/application/contracts/product-repository'
-import { Product, ProductCategory } from '@/core/domain/product'
+import { ProductGatewayInterface } from '@/gateways/product'
+import { Product, ProductCategory } from '@/entities/product'
 import { DbConnection } from '@/interfaces/db-connection'
 
-export class PgProductRepository implements ProductRepository {
+export class PgProductGatewayInterface implements ProductGatewayInterface {
   constructor (private readonly db: DbConnection) {}
 
   async get (): Promise<Product[]> {
