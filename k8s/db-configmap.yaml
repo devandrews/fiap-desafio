@@ -6,3 +6,4 @@ data:
   POSTGRES_DB: "fiap-desafio-db"
   POSTGRES_HOST: "api-db-service" # nome do serviço
   POSTGRES_PORT: "5432"
+  APP_PORT: "3000"
