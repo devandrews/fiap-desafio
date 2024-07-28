@@ -12,7 +12,8 @@ export type OrderItems = Pick<Product, 'id' | 'price'> & {
 }
 
 export interface Order {
-  id: string
+  id: number
+  user_id: number | null
   products: OrderItems[]
   total: number
   status: OrderStatus

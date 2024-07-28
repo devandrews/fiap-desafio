@@ -1,8 +1,8 @@
 import { z } from '@/external/zod'
 
 const userSchema = z.object({
-  id: z.string().uuid().openapi({
-    example: '123e4567-e89b-12d3-a456-426614174000'
+  id: z.coerce.number().openapi({
+    example: 1
   }),
   name: z.string().openapi({
     example: 'John Doe'

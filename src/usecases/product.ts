@@ -12,7 +12,7 @@ export class ProductUsecase {
     return await this.repository.create(product)
   }
 
-  async update (id: string, product: Partial<Product>): Promise<Product> {
+  async update (id: string, product: Omit<Product, 'id'>): Promise<Product> {
     return await this.repository.update(id, product)
   }
 

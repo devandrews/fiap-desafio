@@ -23,11 +23,18 @@ export class PgProductGatewayInterface implements ProductGatewayInterface {
 
   async update (id: string, product: Partial<Product>): Promise<Product> {
     const [updatedProduct] = await this.db.query(
-      `update products set name = $1, price = $2, category = $3
-        where id = $4
+      `update products set name = $2, price = $3, category = $4, description = $5, images = $6
+        where id = $1
         returning *
             `,
-      [product.name, product.price, product.category, id]
+      [
+        id,
+        product.name,
+        product.price,
+        product.category,
+        product.description,
+        product.images
+      ]
     )
 
     return updatedProduct

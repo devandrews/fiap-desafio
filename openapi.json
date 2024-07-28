@@ -28,9 +28,11 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "format": "uuid",
-                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "example": 1
                           },
                           "name": {
                             "type": "string",
@@ -120,9 +122,11 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "format": "uuid",
-                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
                         },
                         "name": {
                           "type": "string",
@@ -192,9 +196,11 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "format": "uuid",
-                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "example": 1
                           },
                           "name": {
                             "type": "string",
@@ -256,9 +262,11 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "format": "uuid",
-                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "example": 1
                           },
                           "name": {
                             "type": "string",
@@ -382,9 +390,11 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "format": "uuid",
-                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
                         },
                         "name": {
                           "type": "string",
@@ -479,9 +489,11 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "format": "uuid",
-                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "example": 1
                           },
                           "name": {
                             "type": "string",
@@ -613,9 +625,11 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "format": "uuid",
-                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
                         },
                         "name": {
                           "type": "string",
@@ -681,10 +695,12 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": [
+                "number",
+                "null"
+              ]
             },
-            "required": true,
+            "required": false,
             "name": "id",
             "in": "path"
           }
@@ -718,9 +734,18 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "string",
-                            "format": "uuid",
-                            "example": "123e4567-e89b-12d3-a456-426614174000"
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "example": 1
+                          },
+                          "user_id": {
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "example": 1
                           },
                           "products": {
                             "type": "array",
@@ -728,9 +753,11 @@
                               "type": "object",
                               "properties": {
                                 "id": {
-                                  "type": "string",
-                                  "format": "uuid",
-                                  "example": "123e4567-e89b-12d3-a456-426614174000"
+                                  "type": [
+                                    "number",
+                                    "null"
+                                  ],
+                                  "example": 1
                                 },
                                 "price": {
                                   "type": "number",
@@ -767,6 +794,7 @@
                         },
                         "required": [
                           "id",
+                          "user_id",
                           "products",
                           "total",
                           "status"
@@ -798,15 +826,24 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "user_id": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "example": 1
+                  },
                   "products": {
                     "type": "array",
                     "items": {
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "format": "uuid",
-                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
                         },
                         "price": {
                           "type": "number",
@@ -842,6 +879,7 @@
                   }
                 },
                 "required": [
+                  "user_id",
                   "products",
                   "total",
                   "status"
@@ -862,9 +900,18 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "format": "uuid",
-                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
+                        },
+                        "user_id": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
                         },
                         "products": {
                           "type": "array",
@@ -872,9 +919,11 @@
                             "type": "object",
                             "properties": {
                               "id": {
-                                "type": "string",
-                                "format": "uuid",
-                                "example": "123e4567-e89b-12d3-a456-426614174000"
+                                "type": [
+                                  "number",
+                                  "null"
+                                ],
+                                "example": 1
                               },
                               "price": {
                                 "type": "number",
@@ -911,6 +960,7 @@
                       },
                       "required": [
                         "id",
+                        "user_id",
                         "products",
                         "total",
                         "status"
@@ -973,9 +1023,18 @@
                       "type": "object",
                       "properties": {
                         "id": {
-                          "type": "string",
-                          "format": "uuid",
-                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
+                        },
+                        "user_id": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "example": 1
                         },
                         "products": {
                           "type": "array",
@@ -983,9 +1042,11 @@
                             "type": "object",
                             "properties": {
                               "id": {
-                                "type": "string",
-                                "format": "uuid",
-                                "example": "123e4567-e89b-12d3-a456-426614174000"
+                                "type": [
+                                  "number",
+                                  "null"
+                                ],
+                                "example": 1
                               },
                               "price": {
                                 "type": "number",
@@ -1022,6 +1083,7 @@
                       },
                       "required": [
                         "id",
+                        "user_id",
                         "products",
                         "total",
                         "status"

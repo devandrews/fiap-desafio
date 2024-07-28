@@ -3,8 +3,8 @@ import { z } from '@/external/zod'
 import { OrderStatus } from '@/entities/order'
 
 const orderItemSchema = z.object({
-  id: z.string().uuid().openapi({
-    example: '123e4567-e89b-12d3-a456-426614174000'
+  id: z.coerce.number().openapi({
+    example: 1
   }),
   price: z.number().positive().openapi({
     example: 10.99
@@ -15,8 +15,11 @@ const orderItemSchema = z.object({
 })
 
 const orderSchema = z.object({
-  id: z.string().uuid().openapi({
-    example: '123e4567-e89b-12d3-a456-426614174000'
+  id: z.coerce.number().openapi({
+    example: 1
+  }),
+  user_id: z.coerce.number().nullable().openapi({
+    example: 1
   }),
   products: z.array(orderItemSchema),
   total: z.number().positive().openapi({

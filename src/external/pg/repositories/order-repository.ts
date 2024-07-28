@@ -11,7 +11,7 @@ export class PgOrderGatewayInterface implements OrderGatewayInterface {
     for (const order of orders) {
       const products = await this.db.query(
         'select * from order_items where order_id = $1',
-        [order.id]
+        [order.id.toString()]
       )
 
       order.products = products
@@ -25,24 +25,27 @@ export class PgOrderGatewayInterface implements OrderGatewayInterface {
 
     const [createdOrder] = await this.db.query(
       `
-      insert into orders (status, total)
-      values ($1, $2)
+      insert into orders (user_id, status, total)
+      values ($1, $2, $3)
       returning *
       `,
-      [order.status, order.total]
+      [order.user_id, order.status, order.total]
     )
+
+    // @todo validate if product exists
 
     if (products.length) {
       const items = []
       for (const product of products) {
         const item = await this.db.query(
           `
-          insert into order_items (order_id, product_id, quantity, price)
-          values ($1, $2, $3, $4)
-          return *
+            insert into order_items (order_id, product_id, quantity, price)
+            values ($1, $2, $3, $4)
+            returning *
           `,
           [createdOrder.id, product.id, product.quantity, product.price]
         )
+
         items.push(item)
       }
       createdOrder.products = items
@@ -53,7 +56,10 @@ export class PgOrderGatewayInterface implements OrderGatewayInterface {
 
   async updateStatus (id: string, status: OrderStatus): Promise<Order> {
     const [updatedOrder] = await this.db.query(
-      'update orders set status = $1 where id = $2',
+      `
+      update orders set status = $1 
+      where id = $2
+      returning *`,
       [status, id]
     )
 

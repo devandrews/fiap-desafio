@@ -6,8 +6,8 @@ exports.up = (pgm) => {
     name: { type: 'varchar(100)', notNull: true },
     category: { type: 'varchar(100)', notNull: true },
     price: { type: 'decimal', notNull: true },
-    description: { type: 'text', notNull: true },
-    images: { type: 'text[]', notNull: true },
+    description: { type: 'text' },
+    images: { type: 'text[]' },
     created_at: { type: 'timestamp', default: pgm.func('current_timestamp') },
     updated_at: { type: 'timestamp', default: pgm.func('current_timestamp') },
     deleted_at: { type: 'timestamp' }

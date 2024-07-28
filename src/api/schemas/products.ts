@@ -2,8 +2,8 @@ import { z } from '@/external/zod'
 import { ProductCategory } from '@/entities/product'
 
 const productSchema = z.object({
-  id: z.string().uuid().openapi({
-    example: '123e4567-e89b-12d3-a456-426614174000'
+  id: z.coerce.number().openapi({
+    example: 1
   }),
   name: z.string().openapi({
     example: 'Product Name'
@@ -52,5 +52,5 @@ export const updateProductResponseSchema = z.object({ data: productSchema })
 
 // DELETE
 export const deleteProductRequestParamsSchema = z.object({
-  id: z.string().uuid()
+  id: z.coerce.number()
 })
