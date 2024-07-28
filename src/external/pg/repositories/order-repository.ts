@@ -54,7 +54,7 @@ export class PgOrderGatewayInterface implements OrderGatewayInterface {
     return createdOrder
   }
 
-  async updateStatus (id: string, status: OrderStatus): Promise<Order> {
+  async updateStatus (id: number, status: OrderStatus): Promise<Order> {
     const [updatedOrder] = await this.db.query(
       `
       update orders set status = $1 

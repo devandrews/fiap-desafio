@@ -2,7 +2,9 @@ import { ZodError } from 'zod'
 import { Express } from 'express'
 
 import { ProductCategory } from '@/entities/product'
-import { ProductUsecase } from '@/usecases/product'
+import { ProductsController } from '@/controllers/products'
+
+import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
 import {
   createProductRequestBodySchema,
   createProductResponseSchema,
@@ -13,12 +15,10 @@ import {
   updateProductResponseSchema
 } from '../schemas/products'
 
-import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
-
 export class HttpProductsRoutes {
   constructor (
     private readonly app: Express,
-    private readonly usecase: ProductUsecase,
+    private readonly controller: ProductsController,
     private readonly openAPIRegistry: OpenAPIRegistry
   ) {
     this.openApi()
@@ -26,16 +26,14 @@ export class HttpProductsRoutes {
 
   setup (): void {
     this.app.get('/products', async (_, res) => {
-      const products = await this.usecase.get()
+      const products = await this.controller.get()
       res.status(200).json({ data: products, total: products.length })
     })
 
-    this.app.get('/products/:category', async (req, res) => {
+    this.app.get('/products/:category', async ({ params }, res) => {
       try {
-        getProductCategoryRequestParamsSchema.parse(req.params)
-        const { category } = req.params
-        const products = await this.usecase.getByCategory(
-          category as ProductCategory
+        const products = await this.controller.getByCategory(
+          params.category as ProductCategory
         )
         res.status(200).json({ data: products, total: products.length })
       } catch (error: any) {
@@ -46,10 +44,9 @@ export class HttpProductsRoutes {
       }
     })
 
-    this.app.post('/products', async (req, res) => {
+    this.app.post('/products', async ({ body }, res) => {
       try {
-        const body = createProductRequestBodySchema.parse(req.body)
-        const product = await this.usecase.create(body)
+        const product = await this.controller.create(body)
         res.status(201).json({ data: product })
       } catch (error: any) {
         if (error instanceof ZodError) {
@@ -59,11 +56,9 @@ export class HttpProductsRoutes {
       }
     })
 
-    this.app.patch('/products/:id', async (req, res) => {
+    this.app.patch('/products/:id', async ({ params, body }, res) => {
       try {
-        const body = updateProductRequestBodySchema.parse(req.body)
-        const { id } = req.params
-        const product = await this.usecase.update(id, body)
+        const product = await this.controller.update(+params.id, body)
         res.status(200).json({ data: product })
       } catch (error: any) {
         if (error instanceof ZodError) {
@@ -73,9 +68,8 @@ export class HttpProductsRoutes {
       }
     })
 
-    this.app.delete('/products/:id', async (req, res) => {
-      const { id } = req.params
-      await this.usecase.remove(id)
+    this.app.delete('/products/:id', async ({ params }, res) => {
+      await this.controller.remove(+params.id)
       res.status(204).send()
     })
   }

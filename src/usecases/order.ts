@@ -12,7 +12,7 @@ export class OrderUsecase {
     return await this.repository.create(order)
   }
 
-  async updateStatus (id: string, order: OrderStatus): Promise<Order> {
+  async updateStatus (id: number, order: OrderStatus): Promise<Order> {
     return await this.repository.updateStatus(id, order)
   }
 }

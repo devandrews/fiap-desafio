@@ -21,7 +21,7 @@ export class PgProductGatewayInterface implements ProductGatewayInterface {
     return createdProduct
   }
 
-  async update (id: string, product: Partial<Product>): Promise<Product> {
+  async update (id: number, product: Partial<Product>): Promise<Product> {
     const [updatedProduct] = await this.db.query(
       `update products set name = $2, price = $3, category = $4, description = $5, images = $6
         where id = $1
@@ -40,7 +40,7 @@ export class PgProductGatewayInterface implements ProductGatewayInterface {
     return updatedProduct
   }
 
-  async remove (id: string): Promise<void> {
+  async remove (id: number): Promise<void> {
     await this.db.query('delete from products where id = $1', [id])
   }
 

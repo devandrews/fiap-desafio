@@ -17,10 +17,13 @@ import { HttpUsersRoutes } from './routes/users'
 import { HttpDocsRoutes } from './routes/docs'
 
 import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
+import { UsersController } from '@/controllers/users'
+import { ProductsController } from '@/controllers/products'
+import { OrdersController } from '@/controllers/orders'
 
 const { APP_PORT = 3000 } = process.env
 
-export class HttpDriver {
+export class HttpServer {
   constructor (
     private readonly db: DbConnection,
     private readonly openAPIRegistry: OpenAPIRegistry
@@ -52,9 +55,10 @@ export class HttpDriver {
     const httpUsersUsecase = new UserUsecase(
       new PgUserGatewayInterface(this.db)
     )
+    const usersController = new UsersController(httpUsersUsecase)
     const httpUsersRoutes = new HttpUsersRoutes(
       app,
-      httpUsersUsecase,
+      usersController,
       this.openAPIRegistry
     )
     httpUsersRoutes.setup()
@@ -64,9 +68,10 @@ export class HttpDriver {
     const httpProductsUsecase = new ProductUsecase(
       new PgProductGatewayInterface(this.db)
     )
+    const productsController = new ProductsController(httpProductsUsecase)
     const httpProductsRoutes = new HttpProductsRoutes(
       app,
-      httpProductsUsecase,
+      productsController,
       this.openAPIRegistry
     )
     httpProductsRoutes.setup()
@@ -76,9 +81,10 @@ export class HttpDriver {
     const httpOrdersUsecase = new OrderUsecase(
       new PgOrderGatewayInterface(this.db)
     )
+    const ordersController = new OrdersController(httpOrdersUsecase)
     const httpOrdersRoutes = new HttpOrdersRoutes(
       app,
-      httpOrdersUsecase,
+      ordersController,
       this.openAPIRegistry
     )
     httpOrdersRoutes.setup()

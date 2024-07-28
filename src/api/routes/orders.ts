@@ -1,7 +1,7 @@
 import { ZodError } from 'zod'
 import { Express } from 'express'
 
-import { OrderUsecase } from '@/usecases/order'
+import { OrdersController } from '@/controllers/orders'
 
 import {
   createOrderRequestBodySchema,
@@ -11,11 +11,12 @@ import {
 } from '../schemas/orders'
 
 import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
+import { OrderStatus } from '@/entities/order'
 
 export class HttpOrdersRoutes {
   constructor (
     private readonly app: Express,
-    private readonly usecase: OrderUsecase,
+    private readonly controller: OrdersController,
     private readonly openAPIRegistry: OpenAPIRegistry
   ) {
     this.openApi()
@@ -23,14 +24,13 @@ export class HttpOrdersRoutes {
 
   setup (): void {
     this.app.get('/orders', async (__, res) => {
-      const orders = await this.usecase.get()
+      const orders = await this.controller.get()
       res.status(200).json({ data: orders, total: orders.length })
     })
 
-    this.app.post('/orders', async (req, res) => {
+    this.app.post('/orders', async ({ body }, res) => {
       try {
-        const body = createOrderRequestBodySchema.parse(req.body)
-        const createdOrder = await this.usecase.create(body)
+        const createdOrder = await this.controller.create(body)
         res.status(201).json({ data: createdOrder })
       } catch (error: any) {
         if (error instanceof ZodError) {
@@ -40,11 +40,12 @@ export class HttpOrdersRoutes {
       }
     })
 
-    this.app.patch('/order/:id/status', async (req, res) => {
+    this.app.patch('/order/:id/status', async ({ params, body }, res) => {
       try {
-        const body = updateOrderStatusRequestBodySchema.parse(req.body)
-        const { id } = req.params
-        const updatedOrder = await this.usecase.updateStatus(id, body.status)
+        const updatedOrder = await this.controller.updateStatus(
+          +params.id,
+          body.status as OrderStatus
+        )
         res.json({ data: updatedOrder })
       } catch (error: any) {
         if (error instanceof ZodError) {

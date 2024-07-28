@@ -8,7 +8,7 @@ import path from 'path'
 import { readFileSync } from 'fs'
 import { writeFile } from 'fs/promises'
 
-import { HttpDriver } from '@/api'
+import { HttpServer } from '@/api'
 import db from '@/external/pg/db'
 
 export const OPEN_API_FILE_PATH = path.join(process.cwd(), 'openapi.json')
@@ -44,9 +44,9 @@ export function readOpenApiDocumentation () {
 
 function main () {
   const openAPIRegistry = new OpenAPIRegistry()
-  const httpDriver = new HttpDriver(db, openAPIRegistry)
+  const httpServer = new HttpServer(db, openAPIRegistry)
 
-  httpDriver.start()
+  httpServer.start()
 
   writeOpenApiDocumentation(openAPIRegistry).catch((error) => {
     console.error('Error writing OpenAPI documentation to file:', error)

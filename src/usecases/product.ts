@@ -12,11 +12,11 @@ export class ProductUsecase {
     return await this.repository.create(product)
   }
 
-  async update (id: string, product: Omit<Product, 'id'>): Promise<Product> {
+  async update (id: number, product: Omit<Product, 'id'>): Promise<Product> {
     return await this.repository.update(id, product)
   }
 
-  async remove (id: string): Promise<void> {
+  async remove (id: number): Promise<void> {
     await this.repository.remove(id)
   }
 
