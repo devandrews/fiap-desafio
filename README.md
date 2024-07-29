@@ -102,3 +102,8 @@ Você pode acessar a documentação dos endpoints em: http://localhost:3000/docs
 ## Autor
 
 - Andrews Patrick Arnhold Scherer - [@devandrews](https://www.github.com/devandrews)
+
+## Vídeos (etapa 02)
+
+- https://www.youtube.com/watch?v=Btv5d2MxxBk
+- https://www.youtube.com/watch?v=ijVEVbPBOdI
